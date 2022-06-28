@@ -5,7 +5,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-// const Schema = require('./modules/Schema');
+const Books = require('./modules/Books');
+// const Seed = require('./seed.js');
 
 mongoose.connect(process.env.DB_URL);
 //REQUIRED MODULES
@@ -24,11 +25,11 @@ app.get('/', (req, res) => {
   res.status(200).send('Welcome!');
 });
 
-app.get('/books', getBooks); 
+app.get('/books', getBooks);
 
 async function getBooks(req, res, next){
   try {
-    let results = await Schema.find();
+    let results = await Books.find();
     res.status(200).send(results);
   } catch (error) {
     next(error);
