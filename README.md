@@ -39,6 +39,16 @@ Finish time: 630 pm PST
 
 Actual time needed to complete: 2 hrs
 
+Name of feature: Add images
+
+Estimate of time needed to complete: 3 hr
+
+Start time: 150 pm PST
+
+Finish time: 630 pm PST
+
+Actual time needed to complete: 2 hrs
+
 ## Credit and Collaborations
 
 ### Logistical
