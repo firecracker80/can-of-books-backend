@@ -1,18 +1,49 @@
 'use strict';
 
+//REQUIRE
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+// const Schema = require('./modules/Schema');
 
+mongoose.connect(process.env.DB_URL);
+//REQUIRED MODULES
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('Mongoose is connected');
+});
+//USE
 const app = express();
 app.use(cors());
 
 const PORT = process.env.PORT || 3001;
+//ROUTES
+app.get('/', (req, res) => {
+  res.status(200).send('Welcome!');
+});
 
-app.get('/test', (request, response) => {
+app.get('/books', getBooks); 
 
-  response.send('test request received')
+async function getBooks(req, res, next){
+  try {
+    let results = await Schema.find();
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+}
 
-})
+app.get('*', (req, res) => {
+  res.status(404).send('Not available.');
+});
 
+//ERROR
+
+app.use((error, req, res, next) => {
+  res.status(500).send(error.message);
+});
+
+//LISTEN
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
