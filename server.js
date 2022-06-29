@@ -18,9 +18,9 @@ db.once('open', function () {
 //USE
 const app = express();
 app.use(cors());
+app.use(express.json());
 
-
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 //ROUTES
 app.get('/', (req, res) => {
   res.status(200).send('Welcome!');
@@ -39,6 +39,16 @@ async function getBooks(req, res, next){
 
 app.get('*', (req, res) => {
   res.status(404).send('Not available.');
+});
+
+app.post('/books', async (req, res) => {
+  try {
+    const createdBook = await Books.create(req.body);
+    res.status(200).send(createdBook);
+  } catch (error) {
+    // TODO: send status 400 here, not 500
+    next(error);
+  }
 });
 
 //ERROR
