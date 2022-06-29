@@ -6,6 +6,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Books = require('./modules/Books');
+
 // const Seed = require('./seed.js');
 
 mongoose.connect(process.env.DB_URL);
@@ -46,10 +47,24 @@ app.post('/books', async (req, res, next) => {
     const createdBook = await Books.create(req.body);
     res.status(200).send(createdBook);
   } catch (error) {
+    res.status(404).send('Not found.');
     // TODO: send status 400 here, not 500
     next(error);
   }
 });
+
+app.delete('/books/:id', deleteBook);
+
+async function deleteBook(req, res, next) {
+  let id = req.params.id;
+  console.log(id);
+  try {
+    await Books.findByIdAndDelete(id)
+    res.status(200).send('book deleted successfully');
+  } catch(error) {
+    next(error);
+  }
+}
 
 //ERROR
 
