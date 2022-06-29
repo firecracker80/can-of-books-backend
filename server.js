@@ -41,7 +41,7 @@ app.get('*', (req, res) => {
   res.status(404).send('Not available.');
 });
 
-app.post('/books', async (req, res) => {
+app.post('/books', async (req, res, next) => {
   try {
     const createdBook = await Books.create(req.body);
     res.status(200).send(createdBook);
