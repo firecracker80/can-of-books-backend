@@ -53,6 +53,24 @@ app.post('/books', async (req, res, next) => {
   }
 });
 
+app.put('/books/:id', async (req, res, next) => {
+  let id = req.params.id;
+  try {
+    // updated data lives in the body of the request:
+    let data = req.body;
+
+    // findByIdAndUpdate method takes in 3 arguments
+    // 1. id of the thing to update
+    // 2. updated data object
+    // 3. options object
+    let updatedBook = await Books.findByIdAndUpdate(id, data, { new: true, overwrite: true });
+    res.status(200).send(updatedBook);
+
+  } catch(error) {
+    next(error);
+  }
+});
+
 app.delete('/books/:id', deleteBook);
 
 async function deleteBook(req, res, next) {
